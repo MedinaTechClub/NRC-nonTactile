@@ -47,7 +47,36 @@ void setup(){
 }
 void loop(){
   //do loop stuff
-  
+  //while the front sensor doesn't sense anything, keep going forward.
+  while(getDistance(triggerPin1, echoPin1) > 10){
+    digitalWrite(motorRF, HIGH);
+    digitalWrite(motorLF, HIGH);
+  }
+  //stop moving and check other directions. If there isn't anything left, then go left.
+  digitalWrite(motorRF, LOW);
+  digitalWrite(motorLF, LOW);
+  if(getDistance(triggerPin2, echoPin2) > 10){
+    digitalWrite(motorRB, HIGH);
+    digitalWrite(motorLF, HIGH);
+    delay(500);
+    digitalWrite(motorRB, LOW);
+    digitalWrite(motorLF, LOW);
+    //else if there isnt anything right, then go right.
+    else if(getDistance(triggerPin3, echoPin3) > 10){
+      digitalWrite(motorRF, HIGH);
+      digitalWrite(motorLB, HIGH);
+      delay(500);
+      digitalWrite(motorRF, HIGH);
+      digitalWrite(motorLB, HIGH);
+    }
+    else{
+      digitalWrite(motorRB, HIGH);
+      digitalWrite(motorLF, HIGH);
+      delay(1000);
+      digitalWrite(motorRB, LOW);
+      digitalWrite(motorLF, LOW);
+    }
+    
 }
 int getDistance(int trigPin, int echoPin){
   digitalWrite(trigPin, LOW);
